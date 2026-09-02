@@ -215,7 +215,52 @@ function showNotification(msg) {
   const particles = new THREE.Points(particlesGeometry, particlesMaterial);
   scene.add(particles);
 
+  // --- Cosmic Swimmer Implementation ---
+  const swimmer = new THREE.Group();
+
+  // Light that follows the swimmer
+  const swimmerLight = new THREE.PointLight(0xa855f7, 2, 2);
+  swimmer.add(swimmerLight);
+
+  // Head
+  const head = new THREE.Mesh(
+    new THREE.SphereGeometry(0.05),
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
+  );
+  head.position.y = 0.15;
+  swimmer.add(head);
+
+  // Torso
+  const torso = new THREE.Mesh(
+    new THREE.BoxGeometry(0.08, 0.2, 0.05),
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
+  );
+  swimmer.add(torso);
+
+  // Arms
+  const armL = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.03, 0.03), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+  armL.position.set(-0.1, 0.05, 0);
+  swimmer.add(armL);
+
+  const armR = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.03, 0.03), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+  armR.position.set(0.1, 0.05, 0);
+  swimmer.add(armR);
+
+  // Legs
+  const legL = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.15, 0.03), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+  legL.position.set(-0.04, -0.15, 0);
+  swimmer.add(legL);
+
+  const legR = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.15, 0.03), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+  legR.position.set(0.04, -0.15, 0);
+  swimmer.add(legR);
+
+  swimmer.position.set(0, 0, -1);
+  scene.add(swimmer);
+  // -------------------------------------
+
   camera.position.z = 2;
+
 
   function animate() {
     requestAnimationFrame(animate);
@@ -223,6 +268,20 @@ function showNotification(msg) {
     // Subtle rotation
     particles.rotation.y += 0.0005;
     particles.rotation.x += 0.0002;
+
+    // Swimmer Animation
+    const time = Date.now() * 0.001;
+    swimmer.position.x = Math.sin(time * 0.5) * 2;
+    swimmer.position.y = Math.cos(time * 0.3) * 1;
+    swimmer.position.z = -1 + Math.sin(time * 0.7) * 0.5;
+    swimmer.rotation.z = Math.sin(time * 0.5) * 0.2;
+    swimmer.rotation.y += 0.01;
+
+    // Simulate swimming limbs
+    swimmer.children[2].rotation.z = Math.sin(time * 3) * 0.5; // armL
+    swimmer.children[3].rotation.z = -Math.sin(time * 3) * 0.5; // armR
+    swimmer.children[4].rotation.x = Math.sin(time * 3) * 0.3; // legL
+    swimmer.children[5].rotation.x = -Math.sin(time * 3) * 0.3; // legR
 
     // Scroll-linked movement
     const scrollY = window.scrollY;
