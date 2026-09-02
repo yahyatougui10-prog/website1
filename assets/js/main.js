@@ -99,28 +99,38 @@ function showNotification(msg) {
   if (!loader) return;
 
   function hideLoader() {
-    if (loader.classList.contains('hidden')) return;
+    if (!loader || loader.classList.contains('hidden')) return;
+    console.log('🚀 Hiding loader...');
 
     gsap.to(loader, {
       opacity: 0,
       scale: 1.5,
       filter: 'blur(20px)',
-      duration: 1.5,
+      duration: 1,
       ease: 'expo.inOut',
       onComplete: () => {
         loader.classList.add('hidden');
         document.body.classList.add('loaded');
         revealSite();
+        console.log('✅ Site revealed');
       }
     });
   }
 
   const tl = gsap.timeline({
-    onComplete: hideLoader
+    onComplete: () => {
+      console.log('🎬 Timeline complete');
+      hideLoader();
+    }
   });
 
   // Failsafe: ensure site is revealed even if timeline fails
-  setTimeout(hideLoader, 6000);
+  setTimeout(() => {
+    if (!loader.classList.contains('hidden')) {
+      console.log('⚠️ Failsafe triggered');
+      hideLoader();
+    }
+  }, 4000);
 
   const stages = [
     'Initialisation du système...',
@@ -131,19 +141,25 @@ function showNotification(msg) {
     'Système opérationnel. Prêt !'
   ];
 
+  console.log('Starting intro sequence...');
   stages.forEach((msg, i) => {
     tl.to(status, {
       duration: 0.1,
-      onStart: () => { if(status) status.textContent = msg; }
-    }, i * 0.8);
+      onStart: () => {
+        if(status) {
+          status.textContent = msg;
+          console.log(`Stage ${i+1}/${stages.length}: ${msg}`);
+        }
+      }
+    }, i * 0.4); // Faster transitions (0.4s instead of 0.8s)
   });
 
-  tl.to(title, { opacity: 1, y: 0, duration: 1, ease: 'back.out' }, 3);
+  tl.to(title, { opacity: 1, y: 0, duration: 0.5, ease: 'back.out' }, 2);
 
   // Infinite pulse animation moved outside the main timeline
   gsap.to(core, { scale: 1.2, duration: 1, repeat: -1, yoyo: true, ease: 'sine.inOut' });
 
-  tl.to({}, { duration: 1 });
+  tl.to({}, { duration: 0.5 });
 
   function revealSite() {
     gsap.to('#navbar', { opacity: 1, y: 0, duration: 1, ease: 'back.out' });
@@ -249,7 +265,7 @@ function showNotification(msg) {
       return;
     }
 
-    const res = await fetch(\`/api/suggest?query=\${encodeURIComponent(query)}\`);
+    const res = await fetch(`/api/suggest?query=${encodeURIComponent(query)}`);
     const data = await res.json();
 
     results.innerHTML = data.suggestions.map(s => \`
@@ -304,7 +320,7 @@ function showNotification(msg) {
     playOutput.appendChild(line);
 
     try {
-      const res = await fetch(\`/api/execute?cmd=\${encodeURIComponent(cmd)}\`);
+      const res = await fetch(`/api/execute?cmd=${encodeURIComponent(cmd)}`);
       const text = await res.text();
       const resp = document.createElement('div');
       resp.className = 'play-response';
