@@ -98,30 +98,37 @@ function showNotification(msg) {
   const core = document.querySelector('.bloom-core');
   if (!loader) return;
 
+  function hideLoader() {
+    if (loader.classList.contains('hidden')) return;
+
+    gsap.to(loader, {
+      opacity: 0,
+      scale: 1.5,
+      filter: 'blur(20px)',
+      duration: 1.5,
+      ease: 'expo.inOut',
+      onComplete: () => {
+        loader.classList.add('hidden');
+        document.body.classList.add('loaded');
+        revealSite();
+      }
+    });
+  }
+
   const tl = gsap.timeline({
-    onComplete: () => {
-      gsap.to(loader, {
-        opacity: 0,
-        scale: 1.5,
-        filter: 'blur(20px)',
-        duration: 1.5,
-        ease: 'expo.inOut',
-        onComplete: () => {
-          loader.classList.add('hidden');
-          document.body.classList.add('loaded');
-          revealSite();
-        }
-      });
-    }
+    onComplete: hideLoader
   });
 
+  // Failsafe: ensure site is revealed even if timeline fails
+  setTimeout(hideLoader, 6000);
+
   const stages = [
-    'Initialisation du noyau...',
-    'Calibrage du coeur Bloom...',
-    'Expansion des couches réseau...',
-    'Synchronisation des containers...',
-    'Déploiement de l\'élégance...',
-    'Système opérationnel.'
+    'Initialisation du système...',
+    'Lancement du moteur DockerBloom...',
+    'Configuration des couches réseau...',
+    'Synchronisation des services...',
+    'Running website assets...',
+    'Système opérationnel. Prêt !'
   ];
 
   stages.forEach((msg, i) => {
@@ -132,7 +139,9 @@ function showNotification(msg) {
   });
 
   tl.to(title, { opacity: 1, y: 0, duration: 1, ease: 'back.out' }, 3);
-  tl.to(core, { scale: 1.2, duration: 1, repeat: -1, yoyo: true, ease: 'sine.inOut' }, 0);
+
+  // Infinite pulse animation moved outside the main timeline
+  gsap.to(core, { scale: 1.2, duration: 1, repeat: -1, yoyo: true, ease: 'sine.inOut' });
 
   tl.to({}, { duration: 1 });
 
