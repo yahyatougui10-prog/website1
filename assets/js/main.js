@@ -215,43 +215,6 @@ function showNotification(msg) {
   const particles = new THREE.Points(particlesGeometry, particlesMaterial);
   scene.add(particles);
 
-  // --- Cosmic Swimmer Implementation ---
-  const swimmer = new THREE.Group();
-  console.log('Creating cosmic swimmer...');
-
-  const swimmerMat = new THREE.MeshBasicMaterial({ color: 0x00ffff }); // Bright Cyan
-
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.3), swimmerMat);
-  head.position.y = 0.9;
-  swimmer.add(head);
-
-  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.6, 1.8, 0.4), swimmerMat);
-  swimmer.add(torso);
-
-  const armL = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.3, 0.2), swimmerMat);
-  armL.position.set(-0.9, 0.3, 0);
-  swimmer.add(armL);
-
-  const armR = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.3, 0.2), swimmerMat);
-  armR.position.set(0.9, 0.3, 0);
-  swimmer.add(armR);
-
-  const legL = new THREE.Mesh(new THREE.BoxGeometry(0.3, 1.2, 0.2), swimmerMat);
-  legL.position.set(-0.3, -1.2, 0);
-  swimmer.add(legL);
-
-  const legR = new THREE.Mesh(new THREE.BoxGeometry(0.3, 1.2, 0.2), swimmerMat);
-  legR.position.set(0.3, -1.2, 0);
-  swimmer.add(legR);
-
-  const swimmerLight = new THREE.PointLight(0x00ffff, 5, 10);
-  swimmer.add(swimmerLight);
-
-  swimmer.position.set(0, 0, 1);
-  scene.add(swimmer);
-  console.log('Cosmic swimmer added to scene');
-  // -------------------------------------
-
   camera.position.z = 2;
 
   function animate() {
@@ -259,19 +222,6 @@ function showNotification(msg) {
 
     particles.rotation.y += 0.0005;
     particles.rotation.x += 0.0002;
-
-    // Swimmer Animation
-    const time = Date.now() * 0.001;
-    swimmer.position.x = Math.sin(time * 0.5) * 4; // Larger orbit
-    swimmer.position.y = Math.cos(time * 0.3) * 2; // Larger orbit
-    swimmer.position.z = 1 + Math.sin(time * 0.7) * 1; // Closer to camera
-    swimmer.rotation.z = Math.sin(time * 0.5) * 0.2;
-    swimmer.rotation.y += 0.01;
-
-    swimmer.children[2].rotation.z = Math.sin(time * 3) * 0.5; // armL
-    swimmer.children[3].rotation.z = -Math.sin(time * 3) * 0.5; // armR
-    swimmer.children[4].rotation.x = Math.sin(time * 3) * 0.3; // legL
-    swimmer.children[5].rotation.x = -Math.sin(time * 3) * 0.3; // legR
 
     const scrollY = window.scrollY;
     camera.position.z = 2 - (scrollY * 0.001);
