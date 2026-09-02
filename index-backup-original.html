@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DockerBloom — Maîtrisez Docker</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/enhanced-effects.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===== INTRO LOADER ===== -->
+  <div class="intro-loader" id="intro-loader">
+    <div class="loader-content">
+      <div class="loader-logo">
+        <div class="logo-container">
+          <svg class="logo-svg" viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#a855f7;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#d946ef;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle class="logo-circle" cx="100" cy="100" r="80" fill="none" stroke="url(#logoGradient)" stroke-width="4"/>
+            <path class="logo-hex" d="M100,40 L140,70 L140,130 L100,160 L60,130 L60,70 Z" fill="none" stroke="url(#logoGradient)" stroke-width="3"/>
+            <text class="logo-docker" x="100" y="110" text-anchor="middle" fill="url(#logoGradient)" font-size="40" font-weight="bold">⬡</text>
+          </svg>
+        </div>
+        <h1 class="loader-title">
+          <span class="loader-text">Docker</span><span class="loader-accent">Bloom</span>
+        </h1>
+      </div>
+      <div class="loader-bar-container">
+        <div class="loader-bar">
+          <div class="loader-progress" id="loader-progress"></div>
+        </div>
+        <div class="loader-percentage" id="loader-percentage">0%</div>
+      </div>
+      <p class="loader-message" id="loader-message">Initialisation...</p>
+    </div>
+    <div class="loader-particles"></div>
+  </div>
+
+  <!-- Animated background canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Spider lily decorative elements -->
+  <div class="spider-lily-deco" id="lily-left">
+    <svg viewBox="0 0 200 200" class="lily-svg">
+      <g class="lily-petals">
+        <path d="M100,100 Q80,50 85,20 Q90,40 100,100" fill="rgba(168,85,247,0.3)" class="petal"/>
+        <path d="M100,100 Q120,50 115,20 Q110,40 100,100" fill="rgba(168,85,247,0.3)" class="petal"/>
+      </g>
+    </svg>
+  </div>
+  <div class="spider-lily-deco" id="lily-right">
+    <svg viewBox="0 0 200 200" class="lily-svg">
+      <g class="lily-petals">
+        <path d="M100,100 Q80,50 85,20 Q90,40 100,100" fill="rgba(217,70,239,0.3)" class="petal"/>
+        <path d="M100,100 Q120,50 115,20 Q110,40 100,100" fill="rgba(217,70,239,0.3)" class="petal"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Cursor glow effect -->
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar" style="transform: translateY(-100%); opacity: 0;">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">Docker<span class="logo-accent">Bloom</span></span>
+      </div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="nav-link active">Accueil</a></li>
+        <li><a href="#concepts" class="nav-link">Concepts</a></li>
+        <li><a href="#containers" class="nav-link">Containers</a></li>
+        <li><a href="#images" class="nav-link">Images</a></li>
+        <li><a href="#compose" class="nav-link">Compose</a></li>
+        <li><a href="#apps" class="nav-link">Apps</a></li>
+        <li><a href="#playground" class="nav-link">Playground</a></li>
+      </ul>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero hero-with-flowers" id="hero" style="opacity: 0;">
+    <!-- Flower overlay decoration -->
+    <div class="hero-flowers-overlay">
+      <div class="flower-group flower-group-left"></div>
+      <div class="flower-group flower-group-right"></div>
+    </div>
+    
+    <div class="hero-content">
+      <div class="hero-badge" data-aos="fade-down">
+        <span class="badge-dot"></span>
+        Plateforme d'apprentissage Docker
+      </div>
+      <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+        Déployez vos apps<br />
+        <span class="gradient-text glitch-text" data-text="avec élégance">avec élégance</span>
+      </h1>
+      <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+        Maîtrisez Docker depuis les bases jusqu'aux architectures avancées.
+        Containers, images, volumes, réseaux et orchestration — tout en un seul endroit.
+      </p>
+      <div class="hero-actions" data-aos="fade-up" data-aos-delay="300">
+        <a href="#concepts" class="btn btn-primary btn-3d">
+          <span class="btn-text">Commencer</span>
+          <span class="btn-shine"></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#playground" class="btn btn-ghost btn-3d">
+          <span class="btn-text">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg>
+            Playground
+          </span>
+          <span class="btn-shine"></span>
+        </a>
+      </div>
+      <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
+        <div class="stat stat-animated">
+          <span class="stat-value" data-count="12">12+</span>
+          <span class="stat-label">Modules</span>
+          <div class="stat-bar"></div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat stat-animated">
+          <span class="stat-value" data-count="50">50+</span>
+          <span class="stat-label">Exemples</span>
+          <div class="stat-bar"></div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat stat-animated">
+          <span class="stat-value" data-count="100">100%</span>
+          <span class="stat-label">Pratique</span>
+          <div class="stat-bar"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual" data-aos="fade-left" data-aos-delay="200">
+      <div class="terminal-window terminal-3d">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <span class="terminal-title">terminal</span>
+          <div class="terminal-actions">
+            <button class="terminal-btn" title="Minimize">─</button>
+            <button class="terminal-btn" title="Maximize">□</button>
+          </div>
+        </div>
+        <div class="terminal-body" id="hero-terminal">
+          <div class="terminal-line"><span class="prompt">$</span> <span class="cmd" data-typing="docker pull nginx">docker pull nginx</span></div>
+          <div class="terminal-output" id="typing-output"></div>
+          <div class="terminal-cursor"></div>
+        </div>
+        <div class="terminal-glow"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONCEPTS SECTION ===== -->
+  <section class="section section-3d skew-on-scroll" id="concepts">
+    <div class="container">
+      <div class="section-header zoom-on-scroll">
+        <span class="section-tag">Fondamentaux</span>
+        <h2 class="section-title text-3d">Comprendre Docker</h2>
+        <p class="section-desc">Les concepts essentiels pour démarrer avec la conteneurisation.</p>
+      </div>
+
+      <div class="concepts-grid stagger-3d">
+        <div class="concept-card tilt-card" data-delay="0" data-tilt>
+          <div class="card-shine"></div>
+          <div class="concept-icon icon-float">🐳</div>
+          <h3>Docker Engine</h3>
+          <p>Le moteur qui fait tourner vos containers. Il gère le cycle de vie complet des containers sur votre machine.</p>
+          <div class="concept-tags">
+            <span class="tag tag-glow">daemon</span>
+            <span class="tag tag-glow">REST API</span>
+            <span class="tag tag-glow">CLI</span>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+        <div class="concept-card tilt-card" data-delay="100" data-tilt>
+          <div class="card-shine"></div>
+          <div class="concept-icon icon-float">📦</div>
+          <h3>Containers</h3>
+          <p>Des environnements isolés et légers qui embarquent votre app avec toutes ses dépendances.</p>
+          <div class="concept-tags">
+            <span class="tag tag-glow">isolation</span>
+            <span class="tag tag-glow">namespaces</span>
+            <span class="tag tag-glow">cgroups</span>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+        <div class="concept-card tilt-card" data-delay="200" data-tilt>
+          <div class="card-shine"></div>
+          <div class="concept-icon icon-float">🖼️</div>
+          <h3>Images</h3>
+          <p>Les blueprints immuables de vos containers, construits en couches pour maximiser la réutilisation.</p>
+          <div class="concept-tags">
+            <span class="tag tag-glow">layers</span>
+            <span class="tag tag-glow">Dockerfile</span>
+            <span class="tag tag-glow">registry</span>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+        <div class="concept-card tilt-card" data-delay="300" data-tilt>
+          <div class="card-shine"></div>
+          <div class="concept-icon icon-float">💾</div>
+          <h3>Volumes</h3>
+          <p>Persistez vos données au-delà du cycle de vie d'un container grâce aux volumes Docker.</p>
+          <div class="concept-tags">
+            <span class="tag tag-glow">persistance</span>
+            <span class="tag tag-glow">bind mount</span>
+            <span class="tag tag-glow">tmpfs</span>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+        <div class="concept-card tilt-card" data-delay="400" data-tilt>
+          <div class="card-shine"></div>
+          <div class="concept-icon icon-float">🌐</div>
+          <h3>Réseaux</h3>
+          <p>Faites communiquer vos containers entre eux et avec le monde extérieur via les réseaux Docker.</p>
+          <div class="concept-tags">
+            <span class="tag tag-glow">bridge</span>
+            <span class="tag tag-glow">host</span>
+            <span class="tag tag-glow">overlay</span>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+        <div class="concept-card tilt-card" data-delay="500" data-tilt>
+          <div class="card-shine"></div>
+          <div class="concept-icon icon-float">🗂️</div>
+          <h3>Registry</h3>
+          <p>Stockez et distribuez vos images Docker via Docker Hub ou votre propre registry privé.</p>
+          <div class="concept-tags">
+            <span class="tag tag-glow">Docker Hub</span>
+            <span class="tag tag-glow">push/pull</span>
+            <span class="tag tag-glow">tags</span>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTAINERS SECTION ===== -->
+  <section class="section section-alt section-3d" id="containers">
+    <div class="container">
+      <div class="section-header rotate-in">
+        <span class="section-tag">Containers</span>
+        <h2 class="section-title text-3d">Gérer les Containers</h2>
+        <p class="section-desc">Toutes les commandes pour créer, démarrer, arrêter et inspecter vos containers.</p>
+      </div>
+
+      <div class="tabs-wrapper glass-effect glass-morphism-3d zoom-on-scroll">
+        <div class="tabs" id="container-tabs">
+          <button class="tab active ripple-effect" data-tab="run">
+            <span class="tab-icon">🚀</span>
+            Créer & Lancer
+            <span class="tab-indicator"></span>
+          </button>
+          <button class="tab ripple-effect" data-tab="manage">
+            <span class="tab-icon">⚙️</span>
+            Gérer
+            <span class="tab-indicator"></span>
+          </button>
+          <button class="tab ripple-effect" data-tab="inspect">
+            <span class="tab-icon">🔍</span>
+            Inspecter
+            <span class="tab-indicator"></span>
+          </button>
+          <button class="tab ripple-effect" data-tab="network">
+            <span class="tab-icon">🌐</span>
+            Réseau
+            <span class="tab-indicator"></span>
+          </button>
+        </div>
+
+        <div class="tab-content active" id="tab-run">
+          <div class="split-view">
+            <div class="split-info">
+              <h3>Lancer un container</h3>
+              <p>La commande <code>docker run</code> crée et démarre un container en une seule étape. Combinez les flags pour configurer finement votre environnement.</p>
+              <ul class="feature-list">
+                <li><span class="feature-icon">-d</span> Mode détaché (background)</li>
+                <li><span class="feature-icon">-p</span> Mapping de ports host:container</li>
+                <li><span class="feature-icon">-v</span> Montage de volume</li>
+                <li><span class="feature-icon">-e</span> Variables d'environnement</li>
+                <li><span class="feature-icon">--name</span> Nommer le container</li>
+                <li><span class="feature-icon">--rm</span> Supprimer à l'arrêt</li>
+              </ul>
+            </div>
+            <div class="split-code">
+              <div class="code-block">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-target="code-run">Copier</button>
+                </div>
+                <pre id="code-run"><code><span class="c"># Lancer un container simple</span>
+docker run hello-world
+
+<span class="c"># Container en mode interactif</span>
+docker run -it ubuntu bash
+
+<span class="c"># Serveur web en arrière-plan</span>
+docker run -d \
+  --name mon-nginx \
+  -p 8080:80 \
+  -v $(pwd)/html:/usr/share/nginx/html \
+  nginx
+
+<span class="c"># Container avec variables d'env</span>
+docker run -d \
+  --name ma-db \
+  -e POSTGRES_USER=admin \
+  -e POSTGRES_PASSWORD=secret \
+  -e POSTGRES_DB=myapp \
+  -p 5432:5432 \
+  postgres:15</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="tab-manage">
+          <div class="split-view">
+            <div class="split-info">
+              <h3>Gérer le cycle de vie</h3>
+              <p>Démarrez, arrêtez, redémarrez et supprimez vos containers avec les commandes de base.</p>
+              <ul class="feature-list">
+                <li><span class="feature-icon">ps</span> Lister les containers actifs</li>
+                <li><span class="feature-icon">stop</span> Arrêt gracieux (SIGTERM)</li>
+                <li><span class="feature-icon">kill</span> Arrêt immédiat (SIGKILL)</li>
+                <li><span class="feature-icon">rm</span> Supprimer un container</li>
+                <li><span class="feature-icon">exec</span> Exécuter dans un container</li>
+                <li><span class="feature-icon">logs</span> Voir les journaux</li>
+              </ul>
+            </div>
+            <div class="split-code">
+              <div class="code-block">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-target="code-manage">Copier</button>
+                </div>
+                <pre id="code-manage"><code><span class="c"># Lister les containers</span>
+docker ps          <span class="c"># actifs seulement</span>
+docker ps -a       <span class="c"># tous</span>
+
+<span class="c"># Démarrer / arrêter</span>
+docker start mon-nginx
+docker stop mon-nginx
+docker restart mon-nginx
+
+<span class="c"># Entrer dans un container</span>
+docker exec -it mon-nginx bash
+
+<span class="c"># Voir les logs en temps réel</span>
+docker logs -f mon-nginx
+
+<span class="c"># Supprimer</span>
+docker rm mon-nginx
+docker rm -f mon-nginx   <span class="c"># forcer si actif</span>
+
+<span class="c"># Nettoyer tous les containers arrêtés</span>
+docker container prune</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="tab-inspect">
+          <div class="split-view">
+            <div class="split-info">
+              <h3>Inspecter & Monitorer</h3>
+              <p>Analysez l'état interne de vos containers, consultez les ressources consommées et copiez des fichiers.</p>
+              <ul class="feature-list">
+                <li><span class="feature-icon">inspect</span> Détails JSON complets</li>
+                <li><span class="feature-icon">stats</span> CPU, mémoire, réseau live</li>
+                <li><span class="feature-icon">top</span> Processus du container</li>
+                <li><span class="feature-icon">cp</span> Copier fichiers</li>
+                <li><span class="feature-icon">diff</span> Changements filesystem</li>
+              </ul>
+            </div>
+            <div class="split-code">
+              <div class="code-block">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-target="code-inspect">Copier</button>
+                </div>
+                <pre id="code-inspect"><code><span class="c"># Inspecter un container (JSON)</span>
+docker inspect mon-nginx
+
+<span class="c"># Obtenir l'IP du container</span>
+docker inspect -f \
+  '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
+  mon-nginx
+
+<span class="c"># Statistiques en temps réel</span>
+docker stats
+docker stats mon-nginx
+
+<span class="c"># Processus actifs</span>
+docker top mon-nginx
+
+<span class="c"># Copier un fichier depuis le container</span>
+docker cp mon-nginx:/etc/nginx/nginx.conf ./nginx.conf
+
+<span class="c"># Voir les modifications du filesystem</span>
+docker diff mon-nginx</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="tab-network">
+          <div class="split-view">
+            <div class="split-info">
+              <h3>Réseau Docker</h3>
+              <p>Créez des réseaux isolés pour faire communiquer vos containers de façon sécurisée.</p>
+              <ul class="feature-list">
+                <li><span class="feature-icon">bridge</span> Réseau par défaut isolé</li>
+                <li><span class="feature-icon">host</span> Partage le réseau host</li>
+                <li><span class="feature-icon">overlay</span> Multi-hôtes (Swarm)</li>
+                <li><span class="feature-icon">none</span> Isolation totale</li>
+              </ul>
+            </div>
+            <div class="split-code">
+              <div class="code-block">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-target="code-network">Copier</button>
+                </div>
+                <pre id="code-network"><code><span class="c"># Créer un réseau personnalisé</span>
+docker network create mon-reseau
+
+<span class="c"># Lister les réseaux</span>
+docker network ls
+
+<span class="c"># Connecter un container au réseau</span>
+docker run -d \
+  --name app \
+  --network mon-reseau \
+  my-app
+
+docker run -d \
+  --name db \
+  --network mon-reseau \
+  postgres:15
+
+<span class="c"># Les containers se trouvent par nom</span>
+<span class="c"># app peut contacter "db" directement</span>
+
+<span class="c"># Inspecter le réseau</span>
+docker network inspect mon-reseau</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== IMAGES SECTION ===== -->
+  <section class="section section-3d" id="images">
+    <div class="container">
+      <div class="section-header zoom-on-scroll">
+        <span class="section-tag">Images</span>
+        <h2 class="section-title text-3d">Construire des Images</h2>
+        <p class="section-desc">Créez des images optimisées avec Dockerfile et les meilleures pratiques.</p>
+      </div>
+
+      <div class="dockerfile-showcase layer-animation">
+        <div class="df-sidebar">
+          <h3>Exemples de Dockerfile</h3>
+          <div class="df-list" id="df-list">
+            <button class="df-item active" data-df="node">
+              <span class="df-icon">🟢</span>
+              <div>
+                <strong>Node.js App</strong>
+                <small>Express + production</small>
+              </div>
+            </button>
+            <button class="df-item" data-df="python">
+              <span class="df-icon">🐍</span>
+              <div>
+                <strong>Python App</strong>
+                <small>FastAPI + uvicorn</small>
+              </div>
+            </button>
+            <button class="df-item" data-df="react">
+              <span class="df-icon">⚛️</span>
+              <div>
+                <strong>React App</strong>
+                <small>Multi-stage build</small>
+              </div>
+            </button>
+            <button class="df-item" data-df="go">
+              <span class="df-icon">🔵</span>
+              <div>
+                <strong>Go App</strong>
+                <small>Scratch minimal</small>
+              </div>
+            </button>
+          </div>
+
+          <div class="df-tips">
+            <h4>💡 Bonnes pratiques</h4>
+            <ul>
+              <li>Utiliser des images officielles slim</li>
+              <li>Multi-stage pour réduire la taille</li>
+              <li>Minimiser les couches RUN</li>
+              <li>Utiliser .dockerignore</li>
+              <li>Ne pas lancer en root</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="df-code-area">
+          <div class="code-block full-height">
+            <div class="code-header">
+              <span class="code-lang" id="df-lang-label">Dockerfile — Node.js</span>
+              <button class="copy-btn" data-target="df-code-display">Copier</button>
+            </div>
+            <pre id="df-code-display"><code id="df-code-content"></code></pre>
+          </div>
+
+          <div class="build-cmds">
+            <h4>Commandes de build</h4>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-lang">bash</span>
+                <button class="copy-btn" data-target="code-build">Copier</button>
+              </div>
+              <pre id="code-build"><code><span class="c"># Construire une image</span>
+docker build -t mon-app:1.0 .
+
+<span class="c"># Build avec arguments</span>
+docker build \
+  --build-arg NODE_ENV=production \
+  -t mon-app:prod .
+
+<span class="c"># Lister les images</span>
+docker images
+
+<span class="c"># Supprimer une image</span>
+docker rmi mon-app:1.0
+
+<span class="c"># Pousser sur Docker Hub</span>
+docker tag mon-app:1.0 username/mon-app:1.0
+docker push username/mon-app:1.0</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DOCKER COMPOSE SECTION ===== -->
+  <section class="section section-alt" id="compose">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Docker Compose</span>
+        <h2 class="section-title">Orchestrer avec Compose</h2>
+        <p class="section-desc">Définissez et lancez des applications multi-containers avec un simple fichier YAML.</p>
+      </div>
+
+      <div class="compose-layout">
+        <div class="compose-info">
+          <div class="compose-card">
+            <h3>Stack complète en un fichier</h3>
+            <p>Docker Compose vous permet de définir toute votre infrastructure applicative dans un fichier <code>docker-compose.yml</code> verscionnable.</p>
+
+            <div class="compose-features">
+              <div class="cf-item">
+                <div class="cf-icon">⚡</div>
+                <div>
+                  <strong>Un seul démarrage</strong>
+                  <p>Lancez tous vos services avec <code>docker compose up</code></p>
+                </div>
+              </div>
+              <div class="cf-item">
+                <div class="cf-icon">🔗</div>
+                <div>
+                  <strong>Dépendances gérées</strong>
+                  <p>Définissez l'ordre de démarrage avec <code>depends_on</code></p>
+                </div>
+              </div>
+              <div class="cf-item">
+                <div class="cf-icon">📋</div>
+                <div>
+                  <strong>Variables d'env</strong>
+                  <p>Utilisez des fichiers <code>.env</code> pour configurer vos services</p>
+                </div>
+              </div>
+              <div class="cf-item">
+                <div class="cf-icon">📦</div>
+                <div>
+                  <strong>Volumes partagés</strong>
+                  <p>Partagez des données entre services facilement</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="compose-commands">
+              <h4>Commandes essentielles</h4>
+              <div class="cmd-list">
+                <div class="cmd-item"><code>docker compose up -d</code><span>Démarrer en arrière-plan</span></div>
+                <div class="cmd-item"><code>docker compose down</code><span>Arrêter et supprimer</span></div>
+                <div class="cmd-item"><code>docker compose ps</code><span>État des services</span></div>
+                <div class="cmd-item"><code>docker compose logs -f</code><span>Logs en live</span></div>
+                <div class="cmd-item"><code>docker compose build</code><span>Reconstruire les images</span></div>
+                <div class="cmd-item"><code>docker compose scale web=3</code><span>Scaler un service</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="compose-code">
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">docker-compose.yml</span>
+              <button class="copy-btn" data-target="code-compose">Copier</button>
+            </div>
+            <pre id="code-compose"><code><span class="k">version</span><span class="p">:</span> <span class="s">'3.9'</span>
+
+<span class="k">services</span><span class="p">:</span>
+  <span class="k">web</span><span class="p">:</span>
+    <span class="k">build</span><span class="p">:</span> <span class="s">./frontend</span>
+    <span class="k">ports</span><span class="p">:</span>
+      <span class="p">-</span> <span class="s">"3000:3000"</span>
+    <span class="k">environment</span><span class="p">:</span>
+      <span class="p">-</span> <span class="s">REACT_APP_API_URL=http://api:8000</span>
+    <span class="k">depends_on</span><span class="p">:</span>
+      <span class="p">-</span> api
+    <span class="k">networks</span><span class="p">:</span>
+      <span class="p">-</span> app-network
+
+  <span class="k">api</span><span class="p">:</span>
+    <span class="k">build</span><span class="p">:</span> <span class="s">./backend</span>
+    <span class="k">ports</span><span class="p">:</span>
+      <span class="p">-</span> <span class="s">"8000:8000"</span>
+    <span class="k">environment</span><span class="p">:</span>
+      <span class="p">-</span> DATABASE_URL=postgresql://admin:secret@db:5432/myapp
+      <span class="p">-</span> REDIS_URL=redis://cache:6379
+    <span class="k">depends_on</span><span class="p">:</span>
+      <span class="p">-</span> db
+      <span class="p">-</span> cache
+    <span class="k">volumes</span><span class="p">:</span>
+      <span class="p">-</span> ./backend:/app
+    <span class="k">networks</span><span class="p">:</span>
+      <span class="p">-</span> app-network
+
+  <span class="k">db</span><span class="p">:</span>
+    <span class="k">image</span><span class="p">:</span> postgres:15-alpine
+    <span class="k">volumes</span><span class="p">:</span>
+      <span class="p">-</span> postgres_data:/var/lib/postgresql/data
+    <span class="k">environment</span><span class="p">:</span>
+      <span class="p">-</span> POSTGRES_USER=admin
+      <span class="p">-</span> POSTGRES_PASSWORD=secret
+      <span class="p">-</span> POSTGRES_DB=myapp
+    <span class="k">networks</span><span class="p">:</span>
+      <span class="p">-</span> app-network
+
+  <span class="k">cache</span><span class="p">:</span>
+    <span class="k">image</span><span class="p">:</span> redis:7-alpine
+    <span class="k">networks</span><span class="p">:</span>
+      <span class="p">-</span> app-network
+
+  <span class="k">nginx</span><span class="p">:</span>
+    <span class="k">image</span><span class="p">:</span> nginx:alpine
+    <span class="k">ports</span><span class="p">:</span>
+      <span class="p">-</span> <span class="s">"80:80"</span>
+      <span class="p">-</span> <span class="s">"443:443"</span>
+    <span class="k">volumes</span><span class="p">:</span>
+      <span class="p">-</span> ./nginx.conf:/etc/nginx/nginx.conf
+    <span class="k">depends_on</span><span class="p">:</span>
+      <span class="p">-</span> web
+      <span class="p">-</span> api
+    <span class="k">networks</span><span class="p">:</span>
+      <span class="p">-</span> app-network
+
+<span class="k">volumes</span><span class="p">:</span>
+  postgres_data<span class="p">:</span>
+
+<span class="k">networks</span><span class="p">:</span>
+  <span class="k">app-network</span><span class="p">:</span>
+    <span class="k">driver</span><span class="p">:</span> bridge</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== APPS SECTION ===== -->
+  <section class="section section-3d" id="apps">
+    <div class="container">
+      <div class="section-header rotate-in">
+        <span class="section-tag">Cas d'usage</span>
+        <h2 class="section-title text-3d">Apps populaires</h2>
+        <p class="section-desc">Déployez vos outils et services favoris en quelques secondes.</p>
+      </div>
+
+      <div class="apps-grid stagger-3d" id="apps-grid">
+
+        <div class="app-card tilt-card interactive-card" data-category="database" data-tilt>
+          <div class="card-shine"></div>
+          <div class="app-header">
+            <div class="app-icon icon-3d" style="background: linear-gradient(135deg, #336791, #0064a5)">🐘</div>
+            <div>
+              <h3>PostgreSQL</h3>
+              <span class="app-category">Base de données</span>
+            </div>
+          </div>
+          <div class="code-block mini code-hover">
+            <pre><code>docker run -d \
+  --name postgres \
+  -e POSTGRES_PASSWORD=secret \
+  -p 5432:5432 \
+  -v pgdata:/var/lib/postgresql/data \
+  postgres:15-alpine</code></pre>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+
+        <div class="app-card tilt-card interactive-card" data-category="database" data-tilt>
+          <div class="card-shine"></div>
+          <div class="app-header">
+            <div class="app-icon icon-3d" style="background: linear-gradient(135deg, #c0392b, #e74c3c)">🔴</div>
+            <div>
+              <h3>Redis</h3>
+              <span class="app-category">Cache / Queue</span>
+            </div>
+          </div>
+          <div class="code-block mini code-hover">
+            <pre><code>docker run -d \
+  --name redis \
+  -p 6379:6379 \
+  -v redis_data:/data \
+  redis:7-alpine \
+  redis-server --appendonly yes</code></pre>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+
+        <div class="app-card tilt-card interactive-card" data-category="web" data-tilt>
+          <div class="card-shine"></div>
+          <div class="app-header">
+            <div class="app-icon icon-3d" style="background: linear-gradient(135deg, #009639, #00cc52)">🌿</div>
+            <div>
+              <h3>Nginx</h3>
+              <span class="app-category">Serveur web</span>
+            </div>
+          </div>
+          <div class="code-block mini code-hover">
+            <pre><code>docker run -d \
+  --name nginx \
+  -p 80:80 \
+  -v $(pwd)/html:/usr/share/nginx/html:ro \
+  -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro \
+  nginx:alpine</code></pre>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+
+        <div class="app-card tilt-card interactive-card" data-category="monitoring" data-tilt>
+          <div class="card-shine"></div>
+          <div class="app-header">
+            <div class="app-icon icon-3d" style="background: linear-gradient(135deg, #e6522c, #ff7043)">📊</div>
+            <div>
+              <h3>Grafana</h3>
+              <span class="app-category">Monitoring</span>
+            </div>
+          </div>
+          <div class="code-block mini code-hover">
+            <pre><code>docker run -d \
+  --name grafana \
+  -p 3000:3000 \
+  -v grafana_data:/var/lib/grafana \
+  -e GF_SECURITY_ADMIN_PASSWORD=admin \
+  grafana/grafana:latest</code></pre>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+
+        <div class="app-card tilt-card interactive-card" data-category="database" data-tilt>
+          <div class="card-shine"></div>
+          <div class="app-header">
+            <div class="app-icon icon-3d" style="background: linear-gradient(135deg, #f39c12, #e67e22)">🍃</div>
+            <div>
+              <h3>MongoDB</h3>
+              <span class="app-category">Base de données</span>
+            </div>
+          </div>
+          <div class="code-block mini code-hover">
+            <pre><code>docker run -d \
+  --name mongodb \
+  -p 27017:27017 \
+  -e MONGO_INITDB_ROOT_USERNAME=admin \
+  -e MONGO_INITDB_ROOT_PASSWORD=secret \
+  -v mongo_data:/data/db \
+  mongo:7</code></pre>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+
+        <div class="app-card tilt-card interactive-card" data-category="devtools" data-tilt>
+          <div class="card-shine"></div>
+          <div class="app-header">
+            <div class="app-icon icon-3d" style="background: linear-gradient(135deg, #6e40c9, #9b59b6)">🔧</div>
+            <div>
+              <h3>Portainer</h3>
+              <span class="app-category">UI Docker</span>
+            </div>
+          </div>
+          <div class="code-block mini code-hover">
+            <pre><code>docker run -d \
+  --name portainer \
+  -p 9000:9000 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v portainer_data:/data \
+  portainer/portainer-ce:latest</code></pre>
+          </div>
+          <div class="card-border-glow"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PLAYGROUND SECTION ===== -->
+  <section class="section section-alt section-3d skew-on-scroll" id="playground">
+    <div class="container">
+      <div class="section-header zoom-on-scroll">
+        <span class="section-tag">Interactif</span>
+        <h2 class="section-title text-3d">Playground</h2>
+        <p class="section-desc">Simulez des commandes Docker et visualisez les résultats en temps réel.</p>
+      </div>
+
+      <div class="playground-layout">
+        <div class="playground-panel glass-effect">
+          <h3>
+            <span class="panel-icon">💻</span>
+            Terminal Simulé
+            <span class="status-indicator pulse"></span>
+          </h3>
+          <div class="play-terminal terminal-3d" id="play-terminal">
+            <div class="play-terminal-output" id="play-output">
+              <div class="play-line welcome ascii-art">
+                <pre class="docker-logo">
+    ____             __                 
+   / __ \____  _____/ /_____  __________
+  / / / / __ \/ ___/ //_/ _ \/ ___/ ___/
+ / /_/ / /_/ / /__/ ,&lt; /  __/ /  (__  ) 
+/_____/\____/\___/_/|_|\___/_/  /____/  
+                                         
+               🐳 Playground</pre>
+              </div>
+              <div class="play-line welcome">
+                <span class="play-text">Bienvenue dans le Docker Playground 🐳</span>
+              </div>
+              <div class="play-line welcome">
+                <span class="play-text">Tapez une commande docker ou choisissez un exemple ci-dessous.</span>
+              </div>
+              <div class="play-line welcome">
+                <span class="play-text">─────────────────────────────────────────</span>
+              </div>
+            </div>
+            <div class="play-input-row">
+              <span class="play-prompt">$ </span>
+              <input type="text" class="play-input" id="play-input" placeholder="docker run hello-world" autocomplete="off" spellcheck="false" />
+              <button class="play-submit ripple-effect" id="play-submit">▶</button>
+            </div>
+          </div>
+
+          <div class="quick-commands">
+            <span class="qc-label">⚡ Essayer :</span>
+            <button class="qc-btn ripple-effect" data-cmd="docker version">docker version</button>
+            <button class="qc-btn ripple-effect" data-cmd="docker ps">docker ps</button>
+            <button class="qc-btn ripple-effect" data-cmd="docker images">docker images</button>
+            <button class="qc-btn ripple-effect" data-cmd="docker run hello-world">hello-world</button>
+            <button class="qc-btn ripple-effect" data-cmd="docker network ls">docker network ls</button>
+            <button class="qc-btn ripple-effect" data-cmd="docker volume ls">docker volume ls</button>
+          </div>
+        </div>
+
+        <div class="playground-panel glass-effect">
+          <h3>
+            <span class="panel-icon">📐</span>
+            Architecture Visuelle
+          </h3>
+          <div class="arch-diagram" id="arch-diagram">
+            <div class="arch-host glass-card">
+              <div class="arch-label">🖥️ Docker Host</div>
+              <div class="arch-containers">
+                <div class="arch-container arch-3d" id="arch-web">
+                  <div class="arch-container-icon">🌐</div>
+                  <div class="arch-container-name">web:3000</div>
+                  <div class="arch-container-status running">running</div>
+                  <div class="container-pulse"></div>
+                </div>
+                <div class="arch-container arch-3d" id="arch-api">
+                  <div class="arch-container-icon">⚙️</div>
+                  <div class="arch-container-name">api:8000</div>
+                  <div class="arch-container-status running">running</div>
+                  <div class="container-pulse"></div>
+                </div>
+                <div class="arch-container arch-3d" id="arch-db">
+                  <div class="arch-container-icon">🐘</div>
+                  <div class="arch-container-name">db:5432</div>
+                  <div class="arch-container-status running">running</div>
+                  <div class="container-pulse"></div>
+                </div>
+                <div class="arch-container arch-3d" id="arch-cache">
+                  <div class="arch-container-icon">⚡</div>
+                  <div class="arch-container-name">cache:6379</div>
+                  <div class="arch-container-status running">running</div>
+                  <div class="container-pulse"></div>
+                </div>
+              </div>
+              <div class="arch-network">
+                <div class="arch-network-label">
+                  <span class="network-icon">🔗</span>
+                  app-network (bridge)
+                  <div class="network-flow"></div>
+                </div>
+              </div>
+            </div>
+            <div class="arch-internet glass-card">
+              <div class="arch-internet-label">🌍 Internet</div>
+              <div class="arch-port">:80 / :443</div>
+              <div class="connection-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CHEATSHEET SECTION ===== -->
+  <section class="section" id="cheatsheet">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Référence rapide</span>
+        <h2 class="section-title">Cheat Sheet Docker</h2>
+        <p class="section-desc">Toutes les commandes essentielles en un coup d'œil.</p>
+      </div>
+
+      <div class="cheatsheet-grid">
+        <div class="cs-group">
+          <h3 class="cs-title">📦 Containers</h3>
+          <table class="cs-table">
+            <tr><td><code>docker run IMAGE</code></td><td>Créer et lancer</td></tr>
+            <tr><td><code>docker start NAME</code></td><td>Démarrer</td></tr>
+            <tr><td><code>docker stop NAME</code></td><td>Arrêter</td></tr>
+            <tr><td><code>docker rm NAME</code></td><td>Supprimer</td></tr>
+            <tr><td><code>docker ps -a</code></td><td>Lister tous</td></tr>
+            <tr><td><code>docker exec -it NAME bash</code></td><td>Entrer dedans</td></tr>
+            <tr><td><code>docker logs -f NAME</code></td><td>Voir les logs</td></tr>
+          </table>
+        </div>
+        <div class="cs-group">
+          <h3 class="cs-title">🖼️ Images</h3>
+          <table class="cs-table">
+            <tr><td><code>docker build -t TAG .</code></td><td>Construire</td></tr>
+            <tr><td><code>docker pull IMAGE</code></td><td>Télécharger</td></tr>
+            <tr><td><code>docker push IMAGE</code></td><td>Pousser</td></tr>
+            <tr><td><code>docker images</code></td><td>Lister</td></tr>
+            <tr><td><code>docker rmi IMAGE</code></td><td>Supprimer</td></tr>
+            <tr><td><code>docker tag SRC DST</code></td><td>Renommer</td></tr>
+            <tr><td><code>docker history IMAGE</code></td><td>Voir les couches</td></tr>
+          </table>
+        </div>
+        <div class="cs-group">
+          <h3 class="cs-title">💾 Volumes</h3>
+          <table class="cs-table">
+            <tr><td><code>docker volume create NAME</code></td><td>Créer</td></tr>
+            <tr><td><code>docker volume ls</code></td><td>Lister</td></tr>
+            <tr><td><code>docker volume inspect NAME</code></td><td>Inspecter</td></tr>
+            <tr><td><code>docker volume rm NAME</code></td><td>Supprimer</td></tr>
+            <tr><td><code>docker volume prune</code></td><td>Nettoyer</td></tr>
+            <tr><td><code>-v NAME:/path</code></td><td>Monter (named)</td></tr>
+            <tr><td><code>-v ./dir:/path</code></td><td>Bind mount</td></tr>
+          </table>
+        </div>
+        <div class="cs-group">
+          <h3 class="cs-title">🌐 Réseaux</h3>
+          <table class="cs-table">
+            <tr><td><code>docker network create NAME</code></td><td>Créer</td></tr>
+            <tr><td><code>docker network ls</code></td><td>Lister</td></tr>
+            <tr><td><code>docker network inspect NAME</code></td><td>Inspecter</td></tr>
+            <tr><td><code>docker network connect NET CONT</code></td><td>Connecter</td></tr>
+            <tr><td><code>docker network rm NAME</code></td><td>Supprimer</td></tr>
+            <tr><td><code>--network NAME</code></td><td>Spécifier au run</td></tr>
+            <tr><td><code>-p 8080:80</code></td><td>Exposer un port</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <span class="logo-icon">⬡</span>
+            <span class="logo-text">Docker<span class="logo-accent">Bloom</span></span>
+          </div>
+          <p>Maîtrisez Docker avec élégance.<br/>Une plateforme dédiée à l'apprentissage de la conteneurisation.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Apprendre</h4>
+            <a href="#concepts">Concepts</a>
+            <a href="#containers">Containers</a>
+            <a href="#images">Images</a>
+            <a href="#compose">Compose</a>
+          </div>
+          <div class="footer-col">
+            <h4>Ressources</h4>
+            <a href="https://docs.docker.com" target="_blank" rel="noopener">Documentation officielle</a>
+            <a href="https://hub.docker.com" target="_blank" rel="noopener">Docker Hub</a>
+            <a href="#playground">Playground</a>
+            <a href="#cheatsheet">Cheat Sheet</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>DockerBloom — Plateforme d'apprentissage Docker</p>
+        <p>Construit avec ❤️ et inspiré par la beauté des fleurs de nuit</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

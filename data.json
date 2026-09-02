@@ -1,0 +1,115 @@
+{
+  "site_name": "DockerBloom",
+  "version": "4.0-ULTRA",
+  "tagline": "L'Art de l'Orchestration",
+  "concepts": [
+    {
+      "id": "engine",
+      "title": "Docker Engine",
+      "icon": "🐳",
+      "desc": "Le moteur qui fait tourner vos containers. Il gère le cycle de vie complet des containers sur votre machine.",
+      "tags": ["daemon", "REST API", "CLI"],
+      "color": "var(--purple-glow)",
+      "mastery_points": 10,
+      "difficulty": "Beginner"
+    },
+    {
+      "id": "containers",
+      "title": "Containers",
+      "icon": "📦",
+      "desc": "Des environnements isolés et légers qui embarquent votre app avec toutes ses dépendances.",
+      "tags": ["isolation", "namespaces", "cgroups"],
+      "color": "var(--pink-accent)",
+      "mastery_points": 15,
+      "difficulty": "Beginner"
+    },
+    {
+      "id": "images",
+      "title": "Images",
+      "icon": "🖼️",
+      "desc": "Les blueprints immuables de vos containers, construits en couches pour maximiser la réutilisation.",
+      "tags": ["layers", "Dockerfile", "registry"],
+      "color": "var(--violet-glow)",
+      "mastery_points": 15,
+      "difficulty": "Intermediate"
+    },
+    {
+      "id": "volumes",
+      "title": "Volumes",
+      "icon": "💾",
+      "desc": "Persistez vos données au-delà du cycle de vie d'un container grâce aux volumes Docker.",
+      "tags": ["persistance", "bind mount", "tmpfs"],
+      "color": "var(--purple-light)",
+      "mastery_points": 10,
+      "difficulty": "Intermediate"
+    },
+    {
+      "id": "networks",
+      "title": "Réseaux",
+      "icon": "🌐",
+      "desc": "Faites communiquer vos containers entre eux et avec le monde extérieur via les réseaux Docker.",
+      "tags": ["bridge", "host", "overlay"],
+      "color": "var(--purple-mid)",
+      "mastery_points": 15,
+      "difficulty": "Advanced"
+    },
+    {
+      "id": "registry",
+      "title": "Registry",
+      "icon": "🗂️",
+      "desc": "Stockez et distribuez vos images Docker via Docker Hub ou votre propre registry privé.",
+      "tags": ["Docker Hub", "push/pull", "tags"],
+      "color": "var(--pink-soft)",
+      "mastery_points": 10,
+      "difficulty": "Beginner"
+    }
+  ],
+  "apps": [
+    {
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "cat": "Database",
+      "cmd": "docker run -d --name postgres -e POSTGRES_PASSWORD=secret -p 5432:5432 postgres:15-alpine",
+      "color": "linear-gradient(135deg, #336791, #0064a5)"
+    },
+    {
+      "name": "Redis",
+      "icon": "🔴",
+      "cat": "Cache",
+      "cmd": "docker run -d --name redis -p 6379:6379 redis:7-alpine",
+      "color": "linear-gradient(135deg, #c0392b, #e74c3c)"
+    },
+    {
+      "name": "Nginx",
+      "icon": "🌿",
+      "cat": "Web",
+      "cmd": "docker run -d --name nginx -p 80:80 nginx:alpine",
+      "color": "linear-gradient(135deg, #009639, #00cc52)"
+    },
+    {
+      "name": "Grafana",
+      "icon": "📊",
+      "cat": "Monitoring",
+      "cmd": "docker run -d --name grafana -p 3000:3000 grafana/grafana:latest",
+      "color": "linear-gradient(135deg, #e6522c, #ff7043)"
+    }
+  ],
+  "tutorials": [
+    {
+      "id": "first-step",
+      "title": "Premier Pas",
+      "steps": [
+        { "cmd": "docker version", "msg": "Vérifiez que Docker est installé." },
+        { "cmd": "docker run hello-world", "msg": "Lancez votre premier container !" }
+      ]
+    },
+    {
+      "id": "web-stack",
+      "title": "Stack Web",
+      "steps": [
+        { "cmd": "docker run -d -p 80:80 --name my-web nginx", "msg": "Déployez un serveur Nginx." },
+        { "cmd": "docker ps", "msg": "Vérifiez que le serveur tourne." }
+      ]
+    }
+  ]
+}

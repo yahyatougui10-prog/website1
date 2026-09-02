@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debug Intro - DockerBloom</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(135deg, #000 0%, #1a0a2e 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .debug-panel {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid #a855f7;
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 600px;
+      backdrop-filter: blur(10px);
+    }
+    h1 { color: #a855f7; margin-bottom: 1rem; }
+    .status { padding: 0.5rem; margin: 0.5rem 0; border-left: 3px solid #a855f7; }
+    .success { color: #0f0; }
+    .error { color: #f00; }
+    .warning { color: #ff0; }
+    button {
+      background: linear-gradient(135deg, #6b21a8, #a855f7);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 0.5rem;
+      font-size: 1rem;
+    }
+    button:hover { opacity: 0.8; }
+    pre {
+      background: #000;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="debug-panel">
+    <h1>🔍 Intro Loader Debug</h1>
+    <div id="checks"></div>
+    <button onclick="testOriginal()">Test Original Site</button>
+    <button onclick="testSimple()">Test Simple Version</button>
+    <button onclick="location.reload()">Reload Page</button>
+  </div>
+
+  <script>
+    const checksDiv = document.getElementById('checks');
+    
+    function addCheck(text, type = 'status') {
+      const div = document.createElement('div');
+      div.className = `status ${type}`;
+      div.innerHTML = text;
+      checksDiv.appendChild(div);
+    }
+
+    // Run checks
+    addCheck('🔍 Checking files...', 'status');
+
+    // Check CSS
+    fetch('assets/css/style.css')
+      .then(r => r.ok ? addCheck('✅ style.css found', 'success') : addCheck('❌ style.css NOT found', 'error'))
+      .catch(() => addCheck('❌ style.css NOT found', 'error'));
+
+    fetch('assets/css/enhanced-effects.css')
+      .then(r => r.ok ? addCheck('✅ enhanced-effects.css found', 'success') : addCheck('❌ enhanced-effects.css NOT found', 'error'))
+      .catch(() => addCheck('❌ enhanced-effects.css NOT found', 'error'));
+
+    // Check JS
+    fetch('assets/js/main.js')
+      .then(r => r.ok ? addCheck('✅ main.js found', 'success') : addCheck('❌ main.js NOT found', 'error'))
+      .catch(() => addCheck('❌ main.js NOT found', 'error'));
+
+    // Check HTML
+    fetch('index.html')
+      .then(r => r.text())
+      .then(html => {
+        if (html.includes('intro-loader')) {
+          addCheck('✅ index.html has intro-loader', 'success');
+        } else {
+          addCheck('❌ index.html missing intro-loader', 'error');
+        }
+      });
+
+    function testOriginal() {
+      window.location.href = 'index.html';
+    }
+
+    function testSimple() {
+      // Create minimal working intro
+      document.body.innerHTML = `
+        <div style="position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 9999;" id="simple-loader">
+          <div style="text-align: center;">
+            <div style="font-size: 4rem; margin-bottom: 1rem; animation: pulse 2s ease-in-out infinite;">🐳</div>
+            <h1 style="font-size: 2rem; background: linear-gradient(135deg, #a855f7, #d946ef); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+              DockerBloom
+            </h1>
+            <div style="width: 300px; height: 4px; background: rgba(168,85,247,0.2); border-radius: 2px; margin: 2rem auto; overflow: hidden;">
+              <div style="height: 100%; background: linear-gradient(90deg, #a855f7, #d946ef); animation: progress 3s ease-out forwards;"></div>
+            </div>
+            <p style="color: #a855f7; font-size: 0.9rem;">Loading...</p>
+          </div>
+        </div>
+        <style>
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+          }
+          @keyframes progress {
+            from { width: 0%; }
+            to { width: 100%; }
+          }
+        </style>
+        <script>
+          setTimeout(() => {
+            document.getElementById('simple-loader').style.transition = 'opacity 0.5s';
+            document.getElementById('simple-loader').style.opacity = '0';
+            setTimeout(() => {
+              document.body.innerHTML = '<div style="text-align: center; padding: 100px; color: white;"><h1 style="font-size: 3rem;">✅ Simple Intro Works!</h1><p>The basic intro loaded successfully.</p><button onclick="location.href=\\'check-intro.html\\'" style="background: #a855f7; color: white; border: none; padding: 1rem 2rem; border-radius: 8px; margin-top: 2rem; cursor: pointer; font-size: 1rem;">Back to Debug</button></div>';
+            }, 500);
+          }, 3000);
+        </script>
+      `;
+    }
+
+    setTimeout(() => {
+      addCheck('📋 Check complete! Click buttons above to test.', 'status');
+    }, 1000);
+  </script>
+</body>
+</html>

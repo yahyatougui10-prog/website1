@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DockerBloom — L'Art de l'Orchestration</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/enhanced-effects.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body class="cosmic-theme">
+
+  <!-- Grainy Overlay for Cinematic Texture -->
+  <div class="grain-overlay"></div>
+
+  <!-- Cyber Border Overlay -->
+  <div class="cyber-border-top"></div>
+  <div class="cyber-border-bottom"></div>
+
+  <!-- Mastery Progress Bar -->
+  <div class="mastery-container">
+    <div class="mastery-info">
+      <span class="mastery-label">Maîtrise Docker</span>
+      <span id="mastery-percent">0%</span>
+    </div>
+    <div class="mastery-bar-bg">
+      <div class="mastery-bar-fill" id="mastery-fill"></div>
+    </div>
+  </div>
+
+  <!-- Command Palette (Ctrl+K) -->
+  <div class="command-palette" id="command-palette">
+    <div class="palette-container">
+      <div class="palette-search">
+        <span class="palette-icon">🔍</span>
+        <input type="text" id="palette-input" placeholder="Rechercher une commande ou un concept..." autocomplete="off">
+      </div>
+      <div class="palette-results" id="palette-results"></div>
+      <div class="palette-footer">Press <span class="kbd">ESC</span> to close</div>
+    </div>
+  </div>
+
+  <!-- Notification System -->
+  <div class="notification-toast" id="notification-toast">
+    <div class="toast-content">
+      <span class="toast-icon">✨</span>
+      <span class="toast-msg">Maîtrise augmentée !</span>
+    </div>
+  </div>
+
+  <!-- Cinematic Bloom Intro -->
+  <div class="bloom-intro" id="intro-loader">
+    <div class="bloom-overlay"></div>
+    <div class="bloom-container">
+      <div class="bloom-core">
+        <svg class="bloom-svg" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="bloomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#a855f7;" />
+              <stop offset="50%" style="stop-color:#d946ef;" />
+              <stop offset="100%" style="stop-color:#8b5cf6;" />
+            </linearGradient>
+          </defs>
+          <path class="bloom-hex" d="M100,40 L140,70 L140,130 L100,160 L60,130 L60,70 Z" fill="none" stroke="url(#bloomGrad)" stroke-width="3"/>
+          <text class="bloom-text" x="100" y="110" text-anchor="middle" fill="url(#bloomGrad)" font-size="40" font-weight="bold">⬡</text>
+        </svg>
+      </div>
+      <div class="bloom-rings">
+        <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+      </div>
+      <h1 class="bloom-title"><span class="bloom-word">Docker</span><span class="bloom-accent">Bloom</span></h1>
+      <div class="bloom-status" id="bloom-status">Initialisation...</div>
+    </div>
+  </div>
+
+  <div class="mesh-background"></div>
+  <canvas id="bg-canvas"></canvas>
+  <div class="particles" id="particles"></div>
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">Docker<span class="logo-accent">Bloom</span></span>
+      </div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="nav-link active">Accueil</a></li>
+        <li><a href="#concepts" class="nav-link">Concepts</a></li>
+        <li><a href="#containers" class="nav-link">Containers</a></li>
+        <li><a href="#apps" class="nav-link">Apps</a></li>
+        <li><a href="#playground" class="nav-link">Playground</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <div class="hero-badge"><span class="dot"></span> Plateforme d'Excellence Docker</div>
+        <h1 class="hero-title">L'Architecture <br><span class="gradient-text">Conteneurisée</span></h1>
+        <p class="hero-subtitle">Explorez l'écosystème Docker à travers une interface immersive. Du moteur aux orchestrations complexes, maîtrisez chaque couche.</p>
+        <div class="hero-actions">
+          <a href="#concepts" class="btn btn-primary magnetic">Commencer le Voyage</a>
+          <a href="#playground" class="btn btn-ghost magnetic">Tester le Shell</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+            <span class="title">root@dockerbloom: ~</span>
+          </div>
+          <div class="terminal-body" id="hero-terminal">
+            <div class="line"><span class="prompt">$</span> <span class="cmd" data-typing="docker ps">docker ps</span></div>
+            <div class="output" id="typing-output"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about-section" id="about">
+      <div class="about-container">
+        <div class="about-visual">
+          <div class="about-blob-container">
+            <div class="about-blob blob-1"></div>
+            <div class="about-blob blob-2"></div>
+            <div class="about-blob blob-3"></div>
+            <div class="about-card-main">
+              <span class="about-icon">🚀</span>
+              <h2 class="about-title">À propos de <br><span class="vibrant-text">DockerBloom</span></h2>
+              <p class="about-desc">L'orchestration n'est pas seulement une question de technique, c'est un art. DockerBloom a été conçu pour transformer l'apprentissage du cloud-native en une expérience sensorielle et immersive.</p>
+              <div class="about-stats">
+                <div class="stat-item"><span class="stat-val">100%</span><span class="stat-lab">Immersif</span></div>
+                <div class="stat-item"><span class="stat-val">∞</span><span class="stat-lab">Scalable</span></div>
+                <div class="stat-item"><span class="stat-val">4K</span><span class="stat-lab">Visuels</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="about-content">
+          <h3 class="about-sub-title">Une Vision Moderne</h3>
+          <p>DockerBloom fusionne la puissance brute de l'infrastructure as code avec l'élégance du design génératif. Notre mission est de rendre les concepts complexes de conteneurisation accessibles à tous, à travers une interface où chaque interaction déclenche une réaction visuelle.</p>
+          <div class="about-features">
+            <div class="feature-pill">✨ Design Immersif</div>
+            <div class="feature-pill">⚡ Temps Réel</div>
+            <div class="feature-pill">🌀 3D Expérientiel</div>
+            <div class="feature-pill">🛠️ Lab Interactif</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="concepts">
+      <div class="section-header">
+        <span class="tag">Fondamentaux</span>
+        <h2 class="section-title">Le Cœur du Système</h2>
+        <p>Interagissez avec les concepts pour augmenter votre niveau de maîtrise.</p>
+      </div>
+      <div class="bento-grid" id="concepts-grid"></div>
+    </section>
+
+    <section class="section section-alt" id="playground">
+      <div class="section-header">
+        <span class="tag">Interactif</span>
+        <h2 class="section-title">Playground Temps Réel</h2>
+        <p>Exécutez des commandes et visualisez le flux de données.</p>
+      </div>
+      <div class="playground-container">
+        <div class="play-terminal-wrapper">
+          <div class="play-terminal">
+            <div class="play-output" id="play-output"></div>
+            <div class="play-input-area">
+              <span class="prompt">❯</span>
+              <input type="text" id="play-input" placeholder="docker run hello-world..." autocomplete="off">
+              <button id="play-submit">Exécuter</button>
+            </div>
+          </div>
+          <div class="quick-cmds" id="quick-cmds"></div>
+        </div>
+        <div class="play-viz">
+          <div class="viz-card">
+            <h3 class="viz-title">Architecture Live</h3>
+            <div class="viz-canvas" id="viz-canvas">
+              <div class="node host" id="node-host">Host</div>
+              <div class="node net" id="node-net">Network</div>
+              <div id="container-nodes"></div>
+              <svg class="viz-svg" id="viz-svg"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="apps">
+      <div class="section-header">
+        <span class="tag">Déploiements</span>
+        <h2 class="section-title">Catalogue d'Images</h2>
+        <p>Les stacks les plus utilisées, prêtes à être lancées.</p>
+      </div>
+      <div class="apps-grid" id="apps-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="nav-logo"><span>⬡</span> DockerBloom</div>
+        <p>L'art de la conteneurisation, sculpté avec précision.</p>
+      </div>
+      <div class="footer-links">
+        <div class="col"><h4>Apprendre</h4><a href="#concepts">Concepts</a><a href="#containers">Containers</a></div>
+        <div class="col"><h4>Légal</h4><a href="#">Documentation</a><a href="#">GitHub</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 DockerBloom — Design Immersif</div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

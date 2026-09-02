@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DockerBloom — Maîtrisez Docker</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* INLINE FIX for intro loader to ensure it works */
+    #intro-loader {
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 10000 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: linear-gradient(135deg, #000000 0%, #0a0a0f 50%, #000000 100%) !important;
+    }
+    
+    #intro-loader.hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== INTRO LOADER ===== -->
+  <div class="intro-loader" id="intro-loader">
+    <div class="loader-content">
+      <div class="loader-logo">
+        <div class="logo-container">
+          <svg class="logo-svg" viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#a855f7;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#d946ef;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle class="logo-circle" cx="100" cy="100" r="80" fill="none" stroke="url(#logoGradient)" stroke-width="4"/>
+            <path class="logo-hex" d="M100,40 L140,70 L140,130 L100,160 L60,130 L60,70 Z" fill="none" stroke="url(#logoGradient)" stroke-width="3"/>
+            <text class="logo-docker" x="100" y="110" text-anchor="middle" fill="url(#logoGradient)" font-size="40" font-weight="bold">⬡</text>
+          </svg>
+        </div>
+        <h1 class="loader-title">
+          <span class="loader-text">Docker</span><span class="loader-accent">Bloom</span>
+        </h1>
+      </div>
+      <div class="loader-bar-container">
+        <div class="loader-bar">
+          <div class="loader-progress" id="loader-progress"></div>
+        </div>
+        <div class="loader-percentage" id="loader-percentage">0%</div>
+      </div>
+      <p class="loader-message" id="loader-message">Initialisation...</p>
+    </div>
+    <div class="loader-particles"></div>
+  </div>
+
+  <!-- Animated background canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Main content will load after intro -->
+  <div id="main-content" style="opacity: 0;">
+    <h1 style="text-align: center; padding: 200px 50px; font-size: 3rem; color: white;">
+      🐳 DockerBloom
+      <br><br>
+      <span style="font-size: 1.5rem; color: #a855f7;">✅ Intro loaded successfully!</span>
+    </h1>
+  </div>
+
+  <!-- INLINE SCRIPT - Guaranteed to run -->
+  <script>
+    console.log('🚀 Starting intro loader...');
+    
+    (function() {
+      const loader = document.getElementById('intro-loader');
+      const progress = document.getElementById('loader-progress');
+      const percentage = document.getElementById('loader-percentage');
+      const message = document.getElementById('loader-message');
+      const mainContent = document.getElementById('main-content');
+      
+      if (!loader || !progress || !percentage || !message) {
+        console.error('❌ Missing loader elements!');
+        return;
+      }
+      
+      console.log('✅ All elements found');
+      
+      const messages = [
+        'Initialisation...',
+        'Chargement des containers...',
+        'Configuration Docker...',
+        'Préparation des images...',
+        'Établissement réseau...',
+        'Montage volumes...',
+        'Finalisation...',
+        'Prêt ! 🐳'
+      ];
+      
+      let currentProgress = 0;
+      let messageIndex = 0;
+      const duration = 3500;
+      const startTime = Date.now();
+      
+      function easeOutQuart(x) {
+        return 1 - Math.pow(1 - x, 4);
+      }
+      
+      function updateLoader() {
+        const elapsed = Date.now() - startTime;
+        const rawProgress = Math.min(elapsed / duration, 1);
+        currentProgress = easeOutQuart(rawProgress) * 100;
+        
+        progress.style.width = currentProgress + '%';
+        percentage.textContent = Math.floor(currentProgress) + '%';
+        
+        const newMessageIndex = Math.min(
+          Math.floor(rawProgress * messages.length),
+          messages.length - 1
+        );
+        
+        if (newMessageIndex !== messageIndex) {
+          messageIndex = newMessageIndex;
+          message.textContent = messages[messageIndex];
+          console.log('📝', messages[messageIndex]);
+        }
+        
+        if (currentProgress < 100) {
+          requestAnimationFrame(updateLoader);
+        } else {
+          finishLoader();
+        }
+      }
+      
+      function finishLoader() {
+        console.log('✅ Loader complete!');
+        
+        setTimeout(() => {
+          loader.style.transition = 'opacity 0.8s ease';
+          loader.style.opacity = '0';
+          
+          setTimeout(() => {
+            loader.classList.add('hidden');
+            mainContent.style.transition = 'opacity 1s ease';
+            mainContent.style.opacity = '1';
+            console.log('🎉 Site loaded!');
+          }, 800);
+        }, 500);
+      }
+      
+      // Start animation
+      console.log('▶️ Starting animation...');
+      setTimeout(updateLoader, 300);
+    })();
+  </script>
+
+  <!-- Load main.js AFTER intro completes -->
+  <script>
+    setTimeout(() => {
+      const script = document.createElement('script');
+      script.src = 'assets/js/main.js';
+      script.onload = () => console.log('✅ main.js loaded');
+      script.onerror = () => console.error('❌ Failed to load main.js');
+      document.body.appendChild(script);
+    }, 4500);
+  </script>
+
+</body>
+</html>
