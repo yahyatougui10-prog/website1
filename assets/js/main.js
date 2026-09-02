@@ -268,12 +268,12 @@ function showNotification(msg) {
     const res = await fetch(`/api/suggest?query=${encodeURIComponent(query)}`);
     const data = await res.json();
 
-    results.innerHTML = data.suggestions.map(s => \`
-      <div class="palette-item" onclick="window.location.hash='playground'; document.getElementById('play-input').value='\${s}'; document.getElementById('play-submit').click();">
-        <span>\${s}</span>
+    results.innerHTML = data.suggestions.map(s => `
+      <div class="palette-item" onclick="window.location.hash='playground'; document.getElementById('play-input').value='${s}'; document.getElementById('play-submit').click();">
+        <span>${s}</span>
         <span class="kbd">Enter</span>
       </div>
-    \`).join('') || '<div class="palette-item">Aucun résultat</div>';
+    `).join('') || '<div class="palette-item">Aucun résultat</div>';
   });
 })();
 
@@ -304,9 +304,9 @@ function showNotification(msg) {
     const y2 = r2.top + r2.height/2 - canvasR.top;
 
     const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    const d = \`M \${x1} \${y1} C \${x1} \${y1}, \${x2} \${y1}, \${x2} \${y2}\`;
+    const d = `M ${x1} ${y1} C ${x1} ${y1}, ${x2} ${y1}, ${x2} ${y2}`;
     line.setAttribute("d", d);
-    line.setAttribute("class", \`viz-line \${active ? 'active' : ''}\`);
+    line.setAttribute("class", `viz-line ${active ? 'active' : ''}`);
     vizSvg.appendChild(line);
     if (active) {
       setTimeout(() => line.remove(), 2000);
@@ -316,7 +316,7 @@ function showNotification(msg) {
   async function handleCmd(cmd) {
     const line = document.createElement('div');
     line.className = 'play-line';
-    line.innerHTML = \`<span class="prompt">❯</span> \${cmd}\`;
+    line.innerHTML = `<span class="prompt">❯</span> ${cmd}`;
     playOutput.appendChild(line);
 
     try {
@@ -333,8 +333,8 @@ function showNotification(msg) {
         node.id = id;
         node.className = 'node container-node';
         node.textContent = 'Container';
-        node.style.left = \`\${20 + Math.random() * 60}%\`;
-        node.style.top = \`\${30 + Math.random() * 40}%\`;
+        node.style.left = `${20 + Math.random() * 60}%`;
+        node.style.top = `${30 + Math.random() * 40}%`;
         containerNodes.appendChild(node);
 
         setTimeout(() => {
@@ -374,8 +374,8 @@ function showNotification(msg) {
   function animate() {
     glowX = lerp(glowX, mouseX, 0.1);
     glowY = lerp(glowY, mouseY, 0.1);
-    glow.style.left = \`\${glowX}px\`;
-    glow.style.top = \`\${glowY}px\`;
+    glow.style.left = `${glowX}px`;
+    glow.style.top = `${glowY}px`;
     requestAnimationFrame(animate);
   }
   animate();
