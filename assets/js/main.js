@@ -217,73 +217,62 @@ function showNotification(msg) {
 
   // --- Cosmic Swimmer Implementation ---
   const swimmer = new THREE.Group();
+  console.log('Creating cosmic swimmer...');
 
-  // Light that follows the swimmer
-  const swimmerLight = new THREE.PointLight(0xa855f7, 2, 2);
-  swimmer.add(swimmerLight);
+  const swimmerMat = new THREE.MeshBasicMaterial({ color: 0x00ffff }); // Bright Cyan
 
-  // Head
-  const head = new THREE.Mesh(
-    new THREE.SphereGeometry(0.05),
-    new THREE.MeshBasicMaterial({ color: 0xffffff })
-  );
-  head.position.y = 0.15;
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.3), swimmerMat);
+  head.position.y = 0.9;
   swimmer.add(head);
 
-  // Torso
-  const torso = new THREE.Mesh(
-    new THREE.BoxGeometry(0.08, 0.2, 0.05),
-    new THREE.MeshBasicMaterial({ color: 0xffffff })
-  );
+  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.6, 1.8, 0.4), swimmerMat);
   swimmer.add(torso);
 
-  // Arms
-  const armL = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.03, 0.03), new THREE.MeshBasicMaterial({ color: 0xffffff }));
-  armL.position.set(-0.1, 0.05, 0);
+  const armL = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.3, 0.2), swimmerMat);
+  armL.position.set(-0.9, 0.3, 0);
   swimmer.add(armL);
 
-  const armR = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.03, 0.03), new THREE.MeshBasicMaterial({ color: 0xffffff }));
-  armR.position.set(0.1, 0.05, 0);
+  const armR = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.3, 0.2), swimmerMat);
+  armR.position.set(0.9, 0.3, 0);
   swimmer.add(armR);
 
-  // Legs
-  const legL = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.15, 0.03), new THREE.MeshBasicMaterial({ color: 0xffffff }));
-  legL.position.set(-0.04, -0.15, 0);
+  const legL = new THREE.Mesh(new THREE.BoxGeometry(0.3, 1.2, 0.2), swimmerMat);
+  legL.position.set(-0.3, -1.2, 0);
   swimmer.add(legL);
 
-  const legR = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.15, 0.03), new THREE.MeshBasicMaterial({ color: 0xffffff }));
-  legR.position.set(0.04, -0.15, 0);
+  const legR = new THREE.Mesh(new THREE.BoxGeometry(0.3, 1.2, 0.2), swimmerMat);
+  legR.position.set(0.3, -1.2, 0);
   swimmer.add(legR);
 
-  swimmer.position.set(0, 0, -1);
+  const swimmerLight = new THREE.PointLight(0x00ffff, 5, 10);
+  swimmer.add(swimmerLight);
+
+  swimmer.position.set(0, 0, 1);
   scene.add(swimmer);
+  console.log('Cosmic swimmer added to scene');
   // -------------------------------------
 
   camera.position.z = 2;
 
-
   function animate() {
     requestAnimationFrame(animate);
 
-    // Subtle rotation
     particles.rotation.y += 0.0005;
     particles.rotation.x += 0.0002;
 
     // Swimmer Animation
     const time = Date.now() * 0.001;
-    swimmer.position.x = Math.sin(time * 0.5) * 2;
-    swimmer.position.y = Math.cos(time * 0.3) * 1;
-    swimmer.position.z = -1 + Math.sin(time * 0.7) * 0.5;
+    swimmer.position.x = Math.sin(time * 0.5) * 4; // Larger orbit
+    swimmer.position.y = Math.cos(time * 0.3) * 2; // Larger orbit
+    swimmer.position.z = 1 + Math.sin(time * 0.7) * 1; // Closer to camera
     swimmer.rotation.z = Math.sin(time * 0.5) * 0.2;
     swimmer.rotation.y += 0.01;
 
-    // Simulate swimming limbs
     swimmer.children[2].rotation.z = Math.sin(time * 3) * 0.5; // armL
     swimmer.children[3].rotation.z = -Math.sin(time * 3) * 0.5; // armR
     swimmer.children[4].rotation.x = Math.sin(time * 3) * 0.3; // legL
     swimmer.children[5].rotation.x = -Math.sin(time * 3) * 0.3; // legR
 
-    // Scroll-linked movement
     const scrollY = window.scrollY;
     camera.position.z = 2 - (scrollY * 0.001);
     camera.position.y = -scrollY * 0.0005;
